@@ -15,9 +15,9 @@ source .venv-mlx/bin/activate
 dancing-angels-ai doctor
 
 dancing-angels-ai create \
-  --image assets/man.png \
+  --image assets/woman-1.png \
   --action walk \
-  --output outputs/man-walking-mlx.mp4
+  --output outputs/woman-1-walking-mlx.mp4
 ```
 
 Supported action presets: `walk`, `run`, `jump`, and `dance`. Use `--prompt`
@@ -26,6 +26,12 @@ when you want custom movement.
 The default smoke-test settings are intentionally small for a 24 GB Apple-silicon
 Mac: 512x512, 17 frames, 10 steps, and aggressive VAE tiling.
 See [docs/mlx-runtime.md](docs/mlx-runtime.md) for one-time setup.
+
+## Local Generation API
+
+Submit an image, poll its job, and retrieve the generated MP4 over localhost.
+The initial Shuffle preset is the step-three diagnostic reference; visual quality
+remains below target. See [API startup, curl examples, and limits](docs/local-api.md).
 
 ## Optional Exact-Motion Path
 
@@ -40,9 +46,9 @@ That backend currently requires a configured NVIDIA CUDA worker:
 dancing-angels-ai doctor --backend wan
 
 dancing-angels-ai animate \
-  --image assets/man.png \
+  --image assets/woman-1.png \
   --motion assets/walk.mp4 \
-  --output outputs/man-walking-wan.mp4
+  --output outputs/woman-1-walking-wan.mp4
 ```
 
 See [docs/wan-runtime.md](docs/wan-runtime.md) for its external runtime.
@@ -52,7 +58,10 @@ See [docs/wan-runtime.md](docs/wan-runtime.md) for its external runtime.
 - `src/dancing_angels_ai/`: application code and generation backends.
 - `experiments/pose/`: verified pose and motion prototypes.
 - `experiments/legacy_sdxl/`: preserved SDXL and ControlNet experiments.
-- `roadmaps-ideas/`: roadmaps, the Golden Image, and evolving product ideas.
+- `roadmaps-ideas/roadmap/`: current visual roadmap.
+- `roadmaps-ideas/golden-image-v4.png`: current website reference; older visuals live in `roadmaps-ideas/archive/`.
+- `design/concepts/`: exploratory design comparison sheets.
+- `docs/internal/`: technical status, evidence, and planning notes.
 - `assets/`: local source media.
 - `models/`: local model files.
 - `outputs/`: generated media.

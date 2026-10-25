@@ -49,9 +49,9 @@ export WAN22_PYTHON=/path/to/Wan2.2/.venv/bin/python
 dancing-angels-ai doctor
 
 dancing-angels-ai animate \
-  --image assets/man.png \
+  --image assets/woman-1.png \
   --motion assets/walk.mp4 \
-  --output outputs/man-walking.mp4
+  --output outputs/woman-1-walking.mp4
 ```
 
 `dancing-angels-ai doctor` must end with `READY`. It checks the source scripts, both
@@ -63,8 +63,8 @@ Successful acceptance means:
 
 1. Conditioning contains readable, frame-aligned `src_pose.mp4` and
    `src_face.mp4`; face frames are 512x512.
-2. `outputs/man-walking.mp4` is readable and nonempty.
-3. Visual inspection shows the character from `man.png` performing the motion
+2. `outputs/woman-1-walking.mp4` is readable and nonempty.
+3. Visual inspection shows the character from `woman-1.png` performing the motion
    from `walk.mp4`.
 
 The same run is available as an opt-in automated smoke test:

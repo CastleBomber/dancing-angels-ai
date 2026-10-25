@@ -13,7 +13,7 @@ from dancing_angels_ai.video import inspect_video
     "set RUN_WAN_E2E=1 on the configured CUDA worker",
 )
 class WanEndToEndTests(unittest.TestCase):
-    def test_man_follows_walk_driver(self) -> None:
+    def test_character_follows_walk_driver(self) -> None:
         wan_repository = os.environ.get("WAN22_REPO")
         checkpoint = os.environ.get("WAN22_CHECKPOINT")
         if not wan_repository or not checkpoint:
@@ -22,14 +22,14 @@ class WanEndToEndTests(unittest.TestCase):
         output = Path(
             os.environ.get(
                 "WAN22_E2E_OUTPUT",
-                "outputs/man-walking.mp4",
+                "outputs/woman-1-walking.mp4",
             )
         )
         status = main(
             [
                 "animate",
                 "--image",
-                "assets/man.png",
+                "assets/woman-1.png",
                 "--motion",
                 "assets/walk.mp4",
                 "--output",

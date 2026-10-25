@@ -7,6 +7,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, List, Optional, Sequence
 
+from dancing_angels_ai.reference import DEFAULT_CHARACTER_IMAGE
+
 
 @dataclass(frozen=True)
 class ProbeResult:
@@ -52,7 +54,7 @@ class WanRuntimeReport:
 def check_mlx_runtime(
     model_directory: Path,
     python_executable: str,
-    character_image: Path = Path("assets/man.png"),
+    character_image: Path = DEFAULT_CHARACTER_IMAGE,
     probe: Optional[Probe] = None,
 ) -> WanRuntimeReport:
     """Inspect the local Apple-silicon image-to-video runtime."""
@@ -141,7 +143,7 @@ def check_wan_runtime(
     wan_repository: Optional[Path],
     checkpoint_directory: Optional[Path],
     python_executable: str,
-    character_image: Path = Path("assets/man.png"),
+    character_image: Path = DEFAULT_CHARACTER_IMAGE,
     driver_video: Path = Path("assets/walk.mp4"),
     probe: Optional[Probe] = None,
 ) -> WanRuntimeReport:

@@ -52,8 +52,11 @@ fidelity or isolate which retry setting caused the visual improvement.
 To reproduce the retry from the repository root:
 
 ```bash
-.venv-mlx/bin/python outputs/v5-step2/run.py --frames 49 --steps 40
+.venv-mlx/bin/python outputs/v5-step2/run-man-reference.py --frames 49 --steps 40
 ```
 
 The runner saves each attempt separately, including its complete CLI argument list.
 Media and run scripts remain under ignored `outputs/`; this report tracks the evidence.
+
+2026-10-08: the historical runner was preserved under `run-man-reference.py`;
+`run.py` now defaults to the user's woman-1 image for new experiments.

@@ -36,9 +36,9 @@ source .venv-mlx/bin/activate
 dancing-angels-ai doctor
 
 dancing-angels-ai create \
-  --image assets/man.png \
+  --image assets/woman-1.png \
   --action walk \
-  --output outputs/man-walking-mlx.mp4
+  --output outputs/woman-1-walking-mlx.mp4
 ```
 
 A successful test prints the absolute output path and leaves a playable MP4.

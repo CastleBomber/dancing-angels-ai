@@ -25,6 +25,7 @@ from dancing_angels_ai.generation import (
 )
 from dancing_angels_ai.pipeline import AnimationPipeline
 from dancing_angels_ai.readiness import check_mlx_runtime, check_wan_runtime
+from dancing_angels_ai.reference import DEFAULT_CHARACTER_IMAGE
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -173,7 +174,7 @@ def build_parser() -> argparse.ArgumentParser:
         default="mlx",
         help="Check Mac-local MLX by default; choose wan for CUDA.",
     )
-    doctor.add_argument("--image", type=Path, default=Path("assets/man.png"))
+    doctor.add_argument("--image", type=Path, default=DEFAULT_CHARACTER_IMAGE)
     doctor.add_argument(
         "--model",
         type=Path,

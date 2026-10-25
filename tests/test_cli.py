@@ -12,11 +12,11 @@ class CliTests(unittest.TestCase):
             [
                 "animate",
                 "--image",
-                "assets/man.png",
+                "assets/woman-1.png",
                 "--motion",
                 "assets/walk.mp4",
                 "--output",
-                "outputs/man-walking.mp4",
+                "outputs/woman-1-walking.mp4",
                 "--wan-repo",
                 "/opt/Wan2.2",
                 "--checkpoint",
@@ -24,9 +24,9 @@ class CliTests(unittest.TestCase):
             ]
         )
 
-        self.assertEqual(args.image, Path("assets/man.png"))
+        self.assertEqual(args.image, Path("assets/woman-1.png"))
         self.assertEqual(args.motion, Path("assets/walk.mp4"))
-        self.assertEqual(args.output, Path("outputs/man-walking.mp4"))
+        self.assertEqual(args.output, Path("outputs/woman-1-walking.mp4"))
         self.assertTrue(args.retarget)
         self.assertEqual(args.fps, -1)
 
@@ -35,16 +35,16 @@ class CliTests(unittest.TestCase):
             [
                 "create",
                 "--image",
-                "assets/man.png",
+                "assets/woman-1.png",
                 "--action",
                 "walk",
                 "--output",
-                "outputs/man-walking-mlx.mp4",
+                "outputs/woman-1-walking-mlx.mp4",
             ]
         )
 
         self.assertEqual(args.command, "create")
-        self.assertEqual(args.image, Path("assets/man.png"))
+        self.assertEqual(args.image, Path("assets/woman-1.png"))
         self.assertEqual(args.action, "walk")
         self.assertEqual(args.frames, 17)
         self.assertEqual(args.steps, 10)
@@ -54,7 +54,7 @@ class CliTests(unittest.TestCase):
 
         self.assertEqual(args.command, "doctor")
         self.assertEqual(args.backend, "mlx")
-        self.assertEqual(args.image, Path("assets/man.png"))
+        self.assertEqual(args.image, Path("assets/woman-1.png"))
         self.assertEqual(args.motion, Path("assets/walk.mp4"))
 
 

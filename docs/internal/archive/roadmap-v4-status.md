@@ -4,7 +4,7 @@ Goal: build the Angels AI website shell around the Golden Image.
 
 | Step | Goal | Status | Evidence |
 |---|---|---|---|
-| 1 | Lock the page skeleton | Complete | `golden-image-v3.png`, `golden-idea.md` |
+| 1 | Lock the page skeleton | Complete | [Golden image V3](../../../roadmaps-ideas/archive/golden-image-v3.png), [original idea](../golden-idea.md) |
 | 2 | Create the web app shell | Complete | `web/app/layout.tsx`, responsive shell |
 | 3 | Build the hero stage | Complete | Interactive stage and preview state |
 | 4 | Build the move carousel | Complete | Move cards, selection, carousel rotation |
