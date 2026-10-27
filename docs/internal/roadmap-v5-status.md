@@ -6,7 +6,7 @@ Goal: `Hero image + Shuffle -> local MLX -> playable MP4 in the website`
 |---|---|---|
 | 1 | Convert the MLX model | Complete — verified 2026-09-04 |
 | 2 | Generate the first dance | Complete — playable MP4 verified 2026-09-05; visual limitations recorded |
-| 3 | Set a quality baseline | Tested — follow-up completed 2026-10-25; both clips 4/10, quality below target |
+| 3 | Set a quality baseline | In progress — 3A input passed 2026-10-26; 3B motion below target (4/10); 3C pending |
 | 4 | Add local generation API | Complete — real HTTP job, MP4 retrieval, playback, and restart verified 2026-10-07 |
 | 5 | Connect the website | Planned — not started; current focus is Step 3 quality |
 | 6 | Add generation states | Planned |
@@ -14,6 +14,18 @@ Goal: `Hero image + Shuffle -> local MLX -> playable MP4 in the website`
 | 8 | Package the Mac demo | Planned |
 
 Acceptance gate: upload Hero, select Shuffle, generate, and watch a real MP4.
+
+## Step 3 checkpoints
+
+| Checkpoint | Acceptance | Current status |
+|---|---|---|
+| 3A — Input | Correct preparation and verified image encoding/conditioning | Passed for woman reference; upload preparation integrated |
+| 3B — Motion | ≥8/10, no zeros, recognizable Shuffle score2 | Below target:4/10; not improved by3A |
+| 3C — Reliability | Repeat passing motion across seeds and different characters | Pending; no robustness claim |
+
+[3A evidence, correction, checks and limitations](roadmap-v5-step3a-input-evidence.md).
+Passing3A does not mean every possible uploaded image or motion works.
+
 
 New test input (2026-10-08): use the user's `assets/woman-1.png` for future runs.
 One prepared woman reference has since been generated; no quality pass is claimed. Read the
@@ -69,7 +81,9 @@ Original planning poster:
 Quality baseline: [V5D](../../roadmaps-ideas/archive/roadmap-v5D-quality-baseline.png).
 Previous roadmap: [V5E](../../roadmaps-ideas/archive/roadmap-v5E-local-api.png).
 Previous roadmap: [V5F](../../roadmaps-ideas/archive/roadmap-v5F-quality-followup.png).
-Current roadmap: [V5G](../../roadmaps-ideas/roadmap/roadmap-v5G-quality-results.png).
+Previous roadmap: [V5G](../../roadmaps-ideas/archive/roadmap-v5G-quality-results.png).
+Previous roadmap: [V5H](../../roadmaps-ideas/archive/roadmap-v5H-decoder-checks.png).
+Current roadmap: [V5I](../../roadmaps-ideas/roadmap/roadmap-v5I-input-verified.png).
 
 ## Step 2 verification — 2026-09-05
 
@@ -110,7 +124,7 @@ Current roadmap: [V5G](../../roadmaps-ideas/roadmap/roadmap-v5G-quality-results.
   is claimed; step-three defects remain.
 - [Evidence and playable result](roadmap-v5-step4-evidence.md).
   [Startup and API commands](../local-api.md).
-- V5E recorded this milestone; V5G is now current. Stopped after step four; website integration
+- V5E recorded this milestone; V5I is now current. Stopped after step four; website integration
   is next, and steps six through eight remain planned.
 
 ## Step 3 follow-up checkpoint — 2026-10-25
@@ -141,3 +155,26 @@ Current roadmap: [V5G](../../roadmaps-ideas/roadmap/roadmap-v5G-quality-results.
 - [Full evidence, reproduction, playable comparison](roadmap-v5-step3-quality-followup.md).
 - V5G: Step 3 TESTED / Quality below target. Steps 1,2,4 remain complete;
   Steps 5–8 planned. V5F and its prompt archived. No API or website integration work.
+
+## Step 3 spatial and decoder result — 2026-10-26
+
+- One whole-frame decode of identical saved latents: 56.145 s; quality still4/10.
+- All49 frames reviewed; full decoding and browser playback passed.
+- Small synthetic and real-weight comparisons agree with the official decoder.
+  No decoder bug confirmed; no speculative patch or additional seeds.
+- High MLX peak allocation (23.51GiB); no default change recommended.
+- Next: small image-encoder/conditioning parity check before another generation.
+- [Evidence, limits, settings and playable comparison](roadmap-v5-step3-spatial-evidence.md).
+- V5H retains Step3 TESTED / Quality below target. V5G image/prompt archived.
+  No application code, API or website changes.
+
+## Step 3A result — 2026-10-26
+
+- Prepared woman image matches the earlier reference exactly; source unchanged.
+- All86 encoder tensors match; full512 encoder differs from official FP32 by at
+  most1.28746e-5. Masks, timesteps and conditioning blend match in tested fixtures.
+- Fixed confirmed backend preparation bypass for raw uploads. Prepared RGB
+  references pass through unchanged. No resampling/model/prompt changes.
+-29 tests passed,1 opt-in CUDA test skipped; zero new video generations.
+-3A passed within recorded scope;3B remains below target and3C pending.
+- V5I current; V5H archived. Stopped after3A, no unrelated API/website changes.

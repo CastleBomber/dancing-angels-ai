@@ -23,6 +23,11 @@ dancing-angels-ai create \
 Supported action presets: `walk`, `run`, `jump`, and `dance`. Use `--prompt`
 when you want custom movement.
 
+The MLX adapter fits transparent or differently sized images onto a white canvas,
+preserving proportions and the original upload. Already sized RGB references
+pass through unchanged. Each run keeps its preparation record beside the output.
+Input checks pass for the woman reference; motion quality is still below target.
+
 The default smoke-test settings are intentionally small for a 24 GB Apple-silicon
 Mac: 512x512, 17 frames, 10 steps, and aggressive VAE tiling.
 See [docs/mlx-runtime.md](docs/mlx-runtime.md) for one-time setup.

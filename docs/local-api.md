@@ -63,10 +63,12 @@ prompt follows the uploaded character without prescribing male features or the
 old clothing. Existing v1 job records retain their original prompt and preset.
 Restart a running API to pick up the new preset.
 
-**Before quality testing:** this transparent portrait needs safe framing and
-explicit background handling; the current MLX square crop cuts off the lower
-legs. See [the next-test handoff](internal/woman-1-handoff.md). No video quality
-claim has been established for the new image or v2 prompt.
+The MLX adapter now prepares transparent or differently sized uploads on a white
+canvas with full-image clearance. Already sized, correctly oriented RGB inputs
+pass through unchanged. Originals and per-run preparation records are retained.
+Restart a running API to load this adapter change. The woman input/conditioning
+checks passed; motion quality remains below target. See
+[Step 3A evidence](internal/roadmap-v5-step3a-input-evidence.md).
 
 ## Input and failure contract
 

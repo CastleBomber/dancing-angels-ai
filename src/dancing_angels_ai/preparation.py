@@ -1,21 +1,26 @@
-"""Deterministic, opt-in character preparation; never modify the source artwork."""
+"""Deterministic character preparation; never modify the source artwork."""
 
 import argparse
 import hashlib
 import json
 from pathlib import Path
+from typing import Optional
 
 from PIL import Image, ImageOps
 
 
-def prepare_character(source: Path, output: Path, size: int = 512, margin: int = 48) -> dict:
+def prepare_character(
+    source: Path, output: Path, size: int = 512, margin: int = 48,
+    height: Optional[int] = None,
+) -> dict:
     """Fit visible artwork on white, preserving proportions and head/foot clearance.
 
     Alpha bounds identify artwork for transparent images. Opaque images retain
     their complete canvas; this function does not infer a foreground mask.
     """
     source, output = Path(source), Path(output)
-    if size <= 0 or margin < 0 or margin * 2 >= size:
+    canvas_height = size if height is None else height
+    if min(size, canvas_height) <= 0 or margin < 0 or margin * 2 >= min(size, canvas_height):
         raise ValueError("size must be positive with room inside the margins")
     if output.exists() or output.resolve() == source.resolve():
         raise FileExistsError("use a new output path; originals are never overwritten")
@@ -27,11 +32,11 @@ def prepare_character(source: Path, output: Path, size: int = 512, margin: int =
     if bounds is None:
         raise ValueError("image contains no visible artwork")
     artwork = rgba.crop(bounds)
-    scale = min((size - 2 * margin) / artwork.width, (size - 2 * margin) / artwork.height)
+    scale = min((size - 2 * margin) / artwork.width, (canvas_height - 2 * margin) / artwork.height)
     fitted = (max(1, round(artwork.width * scale)), max(1, round(artwork.height * scale)))
     artwork = artwork.resize(fitted, Image.Resampling.LANCZOS)
-    offset = ((size - fitted[0]) // 2, (size - fitted[1]) // 2)
-    canvas = Image.new("RGBA", (size, size), (255, 255, 255, 255))
+    offset = ((size - fitted[0]) // 2, (canvas_height - fitted[1]) // 2)
+    canvas = Image.new("RGBA", (size, canvas_height), (255, 255, 255, 255))
     canvas.alpha_composite(artwork, offset)
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("xb") as stream:
@@ -41,10 +46,33 @@ def prepare_character(source: Path, output: Path, size: int = 512, margin: int =
         "source_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
         "prepared_sha256": hashlib.sha256(output.read_bytes()).hexdigest(),
         "source_size": list(rgba.size), "alpha_bounds": list(bounds),
-        "size": size, "margin": margin, "scale": scale,
+        "size": size, "height": canvas_height, "margin": margin, "scale": scale,
         "fitted_size": list(fitted), "offset": list(offset),
         "background": [255, 255, 255], "resampling": "LANCZOS",
     }
+
+
+def prepare_generation_input(source: Path, output: Path, width: int, height: int) -> dict:
+    """Prepare uploads while leaving already sized RGB references unchanged."""
+    source = Path(source).resolve()
+    with Image.open(source) as image:
+        ready = (
+            image.mode == "RGB" and image.size == (width, height)
+            and image.getexif().get(274, 1) == 1
+            and getattr(image, "n_frames", 1) == 1
+        )
+    if ready:
+        return {
+            "source": str(source), "output": str(source), "prepared": False,
+            "source_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+            "reason": "RGB input already matches target dimensions and orientation",
+        }
+    record = prepare_character(
+        source, output, size=width, height=height,
+        margin=round(min(width, height) * 48 / 512),
+    )
+    record["prepared"] = True
+    return record
 
 
 def main() -> None:

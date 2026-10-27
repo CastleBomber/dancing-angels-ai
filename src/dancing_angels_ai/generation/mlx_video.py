@@ -1,10 +1,13 @@
 """Apple-Silicon image-to-video adapter for MLX-Video."""
 
 from dataclasses import dataclass
+import json
 from pathlib import Path
+import tempfile
 from typing import Dict, Sequence
 
 from dancing_angels_ai.commands import CommandRunner, run_command
+from dancing_angels_ai.preparation import prepare_generation_input
 from dancing_angels_ai.video import VideoValidationError, inspect_video
 
 
@@ -100,11 +103,18 @@ class MlxVideoBackend:
             raise MlxVideoGenerationError("prompt must not be empty")
 
         output.parent.mkdir(parents=True, exist_ok=True)
+        # Keep the original upload and a reproducible preparation record per run.
+        input_directory = Path(tempfile.mkdtemp(prefix=f"{output.stem}-input-", dir=output.parent))
+        preparation = prepare_generation_input(
+            image, input_directory / "prepared.png", self.config.width, self.config.height,
+        )
+        (input_directory / "preparation.json").write_text(json.dumps(preparation, indent=2) + "\n")
+        model_image = Path(preparation["output"])
         partial = output.with_name(f".{output.stem}.partial{output.suffix}")
         partial.unlink(missing_ok=True)
         try:
             self.runner(
-                self.build_command(image, prompt, partial),
+                self.build_command(model_image, prompt, partial),
                 self.config.working_directory.expanduser().resolve(),
             )
             inspect_video(partial)

@@ -1,6 +1,6 @@
 # Next Step 3 tests — user's own artwork
 
-Prepared 2026-10-08. Updated 2026-10-25: preparation and the first controlled comparison are complete; quality remains below target. See [follow-up results](roadmap-v5-step3-quality-followup.md).
+Prepared 2026-10-08. Updated 2026-10-26: Step3A passed for the woman input; motion remains below target. See [current3A evidence](roadmap-v5-step3a-input-evidence.md). Earlier instructions below describe the historical experiment workflow.
 
 ## Current input
 - Use `assets/woman-1.png` for every new test. Preserve the original unchanged.
@@ -61,3 +61,21 @@ Safe preparation check (does not generate):
 Pass the inspected prepared copy using `--image`; do not run new tests on the unprepared portrait.
 
 Vector-source explanation: https://toonsquid.com/handbook/export/image/
+
+## Subsequent checkpoint — 2026-10-26
+
+Spatial-only comparison completed: whole-frame decoding remains4/10. Small
+numerical decoder checks match official results; no decoder bug confirmed.
+See [latest evidence and next diagnostic](roadmap-v5-step3-spatial-evidence.md).
+Earlier observations above are preserved as historical evidence.
+
+## Current Step 3A handoff — 2026-10-26
+
+- Normal MLX backend generation now applies the existing preparation to raw
+  uploads. Source files remain unchanged; per-run preparation records are saved.
+- Already sized RGB references bypass fitting, preventing double margins.
+- Woman encoder and conditioning checks pass, including full512 FP32 parity.
+- This corrects an upload-path gap; earlier prepared woman's motion remains4/10.
+- No new generation was needed because corrected pixels match that reference.
+- Next checkpoint is3B Motion;3C Reliability remains pending.
+- [Evidence and limitations](roadmap-v5-step3a-input-evidence.md).

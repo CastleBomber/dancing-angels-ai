@@ -7,6 +7,7 @@ from typing import Sequence
 
 import cv2
 import numpy as np
+from PIL import Image
 
 from dancing_angels_ai.generation.mlx_video import (
     MlxVideoBackend,
@@ -53,11 +54,23 @@ class MlxVideoBackendTests(unittest.TestCase):
             ):
                 (model / filename).write_bytes(b"test")
             image = root / "character.png"
-            image.write_bytes(b"test")
+            portrait = Image.new("RGBA", (100, 200), (0, 0, 0, 0))
+            portrait.paste((255, 0, 0, 255), (30, 60, 70, 160))
+            portrait.paste((0, 255, 0, 255), (30, 160, 70, 180))
+            portrait.save(image)
+            original = image.read_bytes()
             output = root / "result.mp4"
 
             def fake_runner(command: Sequence[str], cwd: Path) -> None:
                 del cwd
+                model_image = Path(command[command.index("--image") + 1])
+                self.assertNotEqual(model_image, image)
+                with Image.open(model_image) as prepared:
+                    self.assertEqual(prepared.size, (512, 512))
+                    self.assertEqual(prepared.mode, "RGB")
+                    self.assertEqual(prepared.getpixel((0, 0)), (255, 255, 255))
+                    self.assertEqual(prepared.getpixel((256, 450)), (0, 255, 0))
+                self.assertTrue((model_image.parent / "preparation.json").is_file())
                 output_index = command.index("--output-path") + 1
                 partial = Path(command[output_index])
                 writer = cv2.VideoWriter(
@@ -87,6 +100,7 @@ class MlxVideoBackendTests(unittest.TestCase):
             self.assertEqual(result, output.resolve())
             self.assertTrue(output.is_file())
             self.assertFalse((root / ".result.partial.mp4").exists())
+            self.assertEqual(image.read_bytes(), original)
 
     def test_frame_count_must_be_four_n_plus_one(self) -> None:
         with self.assertRaisesRegex(ValueError, r"4n\+1"):

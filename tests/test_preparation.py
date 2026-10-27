@@ -4,10 +4,34 @@ from pathlib import Path
 
 from PIL import Image
 
-from dancing_angels_ai.preparation import prepare_character
+from dancing_angels_ai.preparation import prepare_character, prepare_generation_input
 
 
 class PreparationTests(unittest.TestCase):
+    def test_prepared_reference_is_not_padded_twice(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source, output = Path(directory) / "source.png", Path(directory) / "prepared.png"
+            Image.new("RGB", (512, 512), "red").save(source)
+            record = prepare_generation_input(source, output, 512, 512)
+            self.assertFalse(record["prepared"])
+            self.assertEqual(Path(record["output"]), source.resolve())
+            self.assertFalse(output.exists())
+
+    def test_rectangular_target_preserves_artwork_and_orientation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source, output = Path(directory) / "source.png", Path(directory) / "prepared.png"
+            image = Image.new("RGB", (40, 80), "red")
+            exif = Image.Exif()
+            exif[274] = 6
+            image.save(source, exif=exif)
+            record = prepare_generation_input(source, output, 320, 160)
+            self.assertTrue(record["prepared"])
+            self.assertEqual(record["alpha_bounds"], [0, 0, 80, 40])
+            self.assertEqual(record["fitted_size"], [260, 130])
+            with Image.open(output) as prepared:
+                self.assertEqual(prepared.size, (320, 160))
+                self.assertEqual(prepared.getpixel((160, 80)), (255, 0, 0))
+
     def test_transparent_portrait_preserves_feet_and_composites_alpha(self):
         with tempfile.TemporaryDirectory() as directory:
             source, output = Path(directory) / "source.png", Path(directory) / "prepared.png"

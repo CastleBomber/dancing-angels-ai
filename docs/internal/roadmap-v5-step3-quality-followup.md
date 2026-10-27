@@ -176,3 +176,10 @@ The verified existing model config supplies shift 5, full negative prompt and
 24 FPS; installed scheduler defaults to UniPC. This reference is diagnostic,
 not an approved animation preset. Metal access is required. The saved experiment
 metadata also retains the explicit scheduler/shift/negative-prompt invocation.
+
+## Subsequent checkpoint — 2026-10-26
+
+Spatial-only comparison completed: whole-frame decoding remains4/10. Small
+numerical decoder checks match official results; no decoder bug confirmed.
+See [latest evidence and next diagnostic](roadmap-v5-step3-spatial-evidence.md).
+Earlier observations above are preserved as historical evidence.
