@@ -80,8 +80,8 @@ export default function Home() {
   const [songPlaying, setSongPlaying] = useState(false);
   const [carouselOffset, setCarouselOffset] = useState(0);
   const [heroesOpen, setHeroesOpen] = useState(false);
-  const [song, setSong] = useState("Funky Nights");
-  const [drawing, setDrawing] = useState("hero-drawing.png");
+  const [song, setSong] = useState("I Will Be Here (Wolfgang Gartner Remix)");
+  const [drawing, setDrawing] = useState("woman-1.png");
   const [created, setCreated] = useState(false);
 
   const selectedCount = selectedMoves.size;
@@ -187,7 +187,7 @@ export default function Home() {
             <header><span className="step-number">1</span><h2>Add a song</h2></header>
             <div className="track-card">
               <span className="music-tile" aria-hidden="true">♫</span>
-              <span className="track-copy"><strong>{song}</strong><small>128 BPM · Funk<br />02:48</small></span>
+              <span className="track-copy"><strong>{song}</strong><small>Tiësto &amp; Sneaky Sound System</small></span>
               <label className="change-button">Change<input type="file" accept="audio/*" onChange={(event) => setSong(fileName(event, song))} /></label>
               <button className="round-play" type="button" aria-label={songPlaying ? "Pause song" : "Play song"} aria-pressed={songPlaying} onClick={() => setSongPlaying((value) => !value)}>{songPlaying ? "Ⅱ" : "▶"}</button>
               <Waveform playing={songPlaying} />
@@ -205,7 +205,7 @@ export default function Home() {
           <article className="creator-step character-step">
             <header><span className="step-number">2</span><h2>Add your character</h2></header>
             <label className="drawing-card">
-              <span className="drawing-paper"><span className="drawing-art"><img src="/hero-drawing-h.png" alt="Uploaded pencil drawing of a dancing hero" /></span></span>
+              <span className="drawing-paper"><span className="drawing-art"><img src="/woman-1.png" alt="Uploaded woman-1 character drawing" /></span></span>
               <span className="drawing-upload"><span>↥</span> {drawing}</span>
               <input type="file" accept="image/png,image/jpeg" onChange={(event) => setDrawing(fileName(event, drawing))} />
             </label>
