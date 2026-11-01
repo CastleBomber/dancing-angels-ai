@@ -33,7 +33,7 @@ Then improve movement quality and add optional exact driver-video control.
 ## Roadmap Updates
 - When updating a roadmap, move the superseded image into `roadmaps-ideas/archive/`.
 - Add sequential letter suffixes within each roadmap version: `v5A`, `v5B`, `v5C`, and so on.
-- Keep `roadmaps-ideas/roadmap/` visual and minimal: only the current roadmap image. Keep the current website reference at `roadmaps-ideas/golden-image-v4.png`.
+- Keep `roadmaps-ideas/roadmap/` visual and minimal: only the current roadmap image. Keep the current website reference at `roadmaps-ideas/golden-image-v5.png`.
 - Store design comparison sheets and exploratory artwork in `design/concepts/`.
 - Store technical status, evidence, and planning notes in `docs/internal/`; keep superseded notes in `docs/internal/archive/`.
 - Update related internal status and evidence files whenever the roadmap changes. Do not add Markdown notes or technical reports to the user-facing roadmap folder.

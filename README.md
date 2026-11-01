@@ -64,7 +64,7 @@ See [docs/wan-runtime.md](docs/wan-runtime.md) for its external runtime.
 - `experiments/pose/`: verified pose and motion prototypes.
 - `experiments/legacy_sdxl/`: preserved SDXL and ControlNet experiments.
 - `roadmaps-ideas/roadmap/`: current visual roadmap.
-- `roadmaps-ideas/golden-image-v4.png`: current website reference; older visuals live in `roadmaps-ideas/archive/`.
+- `roadmaps-ideas/golden-image-v5.png`: current website reference; older visuals live in `roadmaps-ideas/archive/`.
 - `design/concepts/`: exploratory design comparison sheets.
 - `docs/internal/`: technical status, evidence, and planning notes.
 - `assets/`: local source media.
