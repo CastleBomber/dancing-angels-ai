@@ -138,3 +138,8 @@ is single-use diagnostic evidence; reusable application preparation lives under
   examples, including simpler drawings; a single image cannot establish this.
 
 Stopped after3A. V5I shows these separate gates; V5H image/prompt archived.
+
+## Subsequent Step 3B checkpoint — 2026-10-27
+
+Input checks above remain valid. Two controlled motion trials completed without
+meeting the visual bar. See [Step3B evidence](roadmap-v5-step3b-motion-evidence.md).

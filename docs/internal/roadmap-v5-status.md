@@ -1,27 +1,42 @@
 # Roadmap V5 Status
 
-Goal: `Hero image + Shuffle -> local MLX -> playable MP4 in the website`
+Goal: `Character image + walk / run / jump -> local MLX -> playable MP4`
+
+Current direction (2026-11-02): prove the three basic movements first; following a saved
+reference animation (for example Mixamo) comes later. [Plan and acceptance](roadmap-v5-basic-movements-plan.md).
 
 | Step | Goal | Status |
 |---|---|---|
 | 1 | Convert the MLX model | Complete — verified 2026-09-04 |
-| 2 | Generate the first dance | Complete — playable MP4 verified 2026-09-05; visual limitations recorded |
-| 3 | Set a quality baseline | In progress — 3A input passed 2026-10-26; 3B motion below target (4/10); 3C pending |
+| 2 | Generate the first video | Complete — playable MP4 verified 2026-09-05; visual limitations recorded |
+| 3 | Set a quality baseline | In progress — walk/run/jump untested; text-encoding memory prerequisite unresolved; historical Shuffle below target |
 | 4 | Add local generation API | Complete — real HTTP job, MP4 retrieval, playback, and restart verified 2026-10-07 |
 | 5 | Connect the website | Planned — not started; current focus is Step 3 quality |
 | 6 | Add generation states | Planned |
 | 7 | Play the real result | Planned |
 | 8 | Package the Mac demo | Planned |
 
-Acceptance gate: upload Hero, select Shuffle, generate, and watch a real MP4.
+Acceptance gate: upload character, choose walk, run or jump, generate, and watch a clear playable MP4. All three movements must meet the visual bar; playback alone is insufficient.
 
 ## Step 3 checkpoints
 
 | Checkpoint | Acceptance | Current status |
 |---|---|---|
 | 3A — Input | Correct preparation and verified image encoding/conditioning | Passed for woman reference; upload preparation integrated |
-| 3B — Motion | ≥8/10, no zeros, recognizable Shuffle score2 | Below target:4/10; not improved by3A |
+| 3B — Motion | Each of walk/run/jump ≥8/10, no zeros, requested-action score2 | Pending — three new movement targets untested; historical Shuffle still below target |
 | 3C — Reliability | Repeat passing motion across seeds and different characters | Pending; no robustness claim |
+
+## 3 basic movements
+
+| Order | Movement | Status |
+|---|---|---|
+|1|Walk in place|Untested — first target|
+|2|Run in place|Untested — next|
+|3|Jump in place|Untested — then|
+
+Before testing: resolve text-encoding memory use. After the basics: follow a saved
+reference animation, optionally from Mixamo. This is later work; the current
+prompt-only path does not accept Mixamo animations.
 
 [3A evidence, correction, checks and limitations](roadmap-v5-step3a-input-evidence.md).
 Passing3A does not mean every possible uploaded image or motion works.
@@ -83,7 +98,10 @@ Previous roadmap: [V5E](../../roadmaps-ideas/archive/roadmap-v5E-local-api.png).
 Previous roadmap: [V5F](../../roadmaps-ideas/archive/roadmap-v5F-quality-followup.png).
 Previous roadmap: [V5G](../../roadmaps-ideas/archive/roadmap-v5G-quality-results.png).
 Previous roadmap: [V5H](../../roadmaps-ideas/archive/roadmap-v5H-decoder-checks.png).
-Current roadmap: [V5I](../../roadmaps-ideas/roadmap/roadmap-v5I-input-verified.png).
+Previous roadmap: [V5I](../../roadmaps-ideas/archive/roadmap-v5I-input-verified.png).
+Previous roadmap: [V5J](../../roadmaps-ideas/archive/roadmap-v5J-motion-tested.png).
+Previous roadmap: [V5K](../../roadmaps-ideas/archive/roadmap-v5K-q8-memory-check.png).
+Current roadmap: [V5L](../../roadmaps-ideas/roadmap/roadmap-v5L-basic-movements.png).
 
 ## Step 2 verification — 2026-09-05
 
@@ -124,7 +142,7 @@ Current roadmap: [V5I](../../roadmaps-ideas/roadmap/roadmap-v5I-input-verified.p
   is claimed; step-three defects remain.
 - [Evidence and playable result](roadmap-v5-step4-evidence.md).
   [Startup and API commands](../local-api.md).
-- V5E recorded this milestone; V5I is now current. Stopped after step four; website integration
+- V5E recorded this milestone; V5L is now current. Stopped after step four; website integration
   is next, and steps six through eight remain planned.
 
 ## Step 3 follow-up checkpoint — 2026-10-25
@@ -178,3 +196,43 @@ Current roadmap: [V5I](../../roadmaps-ideas/roadmap/roadmap-v5I-input-verified.p
 -29 tests passed,1 opt-in CUDA test skipped; zero new video generations.
 -3A passed within recorded scope;3B remains below target and3C pending.
 - V5I current; V5H archived. Stopped after3A, no unrelated API/website changes.
+
+## Step 3B result — 2026-10-27
+
+- Two controlled generations completed:shift3 and guidance3, each changing one
+  setting against the original woman reference. Both still4/10; neither passed.
+- Scheduler/tiny-transformer/CFG checks passed; selected Q4 conversion matches
+  the original checkpoint. No implementation cause confirmed; no code patch.
+- All49 frames per clip reviewed; full decoding and browser playback passed.
+- Recorded monotonic times:661.108s and603.855s. First run had large clock gaps;
+  its wall time was8874.658s. These are not controlled speed benchmarks.
+- No new seeds, third generation, model switch or3C testing.
+- Next proposed test:one same-checkpoint Q8 comparison after memory feasibility.
+  Compression is a hypothesis, not a confirmed cause.
+- [Evidence, playable clips, limits and reproduction](roadmap-v5-step3b-motion-evidence.md).
+- V5J current; V5I image/prompt archived.3A passed,3B below target,3C pending.
+
+## Step 3B Q8 checkpoint — 2026-10-28
+
+- Q8 converted from the original checkpoint; all300 Q4 layers reproduce exactly,
+  all526 remaining tensors retained. Q4 and every earlier experiment preserved.
+- Two launches stopped during text encoding at the recorded8GiB swap-increase
+  guard, before Q8 transformer loading or diffusion. No new MP4 or quality score.
+- One retry capped allocator cache256MiB; same math and guard. No further retries.
+- This is an experiment-limit stop, not proof of a hardware OOM or Q8 infeasibility.
+- Next: text-encoding-only memory reduction/parity check before resuming Q8.
+  Another-model capability benchmark is an optional separate path, not executed.
+-3A passed;3B below target with Q8 comparison unresolved;3C pending.
+- [Evidence, failure logs and reference player](roadmap-v5-step3b-q8-evidence.md).
+- V5K current; V5J image/prompt archived. No application/API/website changes.
+
+## Basic-movement planning update — 2026-11-02
+
+- User changed initial motion targets to walk, run and jump, in that order.
+- Dedicated three-movement section added; all three marked untested.
+-3B now requires each action to meet the prospective action-specific rubric.
+  Historical Shuffle scores and failed Q8 launches remain unchanged.
+- Text-encoding memory remains the next prerequisite; no new test was run.
+- Following a saved animation, such as Mixamo, is separate later work.
+- V5L current; V5K image/prompt archived. No application or integration changes.
+- [Plan, criteria and later reference-animation explanation](roadmap-v5-basic-movements-plan.md).

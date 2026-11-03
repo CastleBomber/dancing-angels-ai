@@ -2,6 +2,14 @@
 
 Prepared 2026-10-08. Updated 2026-10-26: Step3A passed for the woman input; motion remains below target. See [current3A evidence](roadmap-v5-step3a-input-evidence.md). Earlier instructions below describe the historical experiment workflow.
 
+## Current priority — 2026-11-02
+
+User now prioritizes **walk → run → jump** before dance/reference-animation work.
+All three are untested. Resolve the recorded text-encoding memory blocker before
+new video tests. Use the prepared woman input. Historical Shuffle-specific test
+instructions below are preserved as history, not the next action prompt.
+[Current plan and prospective acceptance](roadmap-v5-basic-movements-plan.md).
+
 ## Current input
 - Use `assets/woman-1.png` for every new test. Preserve the original unchanged.
 - User-created in ToonSquid with a vector brush; PNG contains raster pixels, not editable vector paths.
@@ -79,3 +87,19 @@ Earlier observations above are preserved as historical evidence.
 - No new generation was needed because corrected pixels match that reference.
 - Next checkpoint is3B Motion;3C Reliability remains pending.
 - [Evidence and limitations](roadmap-v5-step3a-input-evidence.md).
+
+## Step 3B checkpoint — 2026-10-27
+
+Two single-setting trials (shift3 and guidance3) both remain4/10. Input preparation
+is unchanged and3A remains passed; no motion baseline is approved. The next
+proposed experiment is one same-checkpoint Q8 comparison, subject to memory
+feasibility. Do not silently substitute a different character/model or start3C.
+[Latest results and reproduction](roadmap-v5-step3b-motion-evidence.md).
+
+## Subsequent Q8 checkpoint — 2026-10-28
+
+Q8 conversion verified; two launches stopped at the experiment's memory guard
+during unchanged text encoding, before Q8 loaded. No new frames, Q8 score or
+additional seeds. This does not prove Q8 cannot run. Next proposed work is a
+text-encoding-only memory/parity experiment.3B remains below target;3C pending.
+[Latest Q8 evidence and preserved failures](roadmap-v5-step3b-q8-evidence.md).
